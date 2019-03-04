@@ -1,0 +1,306 @@
+html {
+	display: block;
+}
+
+head, link, meta, script, style, title {
+	display: none;
+}
+
+body {
+	display: block;
+}
+
+p {
+	display: block;
+}
+
+address, article, aside, div, footer, header, hgroup, layer, main, nav, section {
+	display: block;
+}
+
+marquee {
+	display: inline-block;
+}
+
+blockquote {
+	display: block;
+}
+
+figcaption {
+	display: block;
+}
+
+figure {
+	display: block;
+}
+
+q {
+	display: inline;
+}
+
+center {
+	display: block;
+	text-align: center;
+}
+
+hr {
+	display: block;
+}
+
+h1 {
+	display: block;
+	font-weight: bold;
+}
+
+h2 {
+	display: block;
+	font-weight: bold;
+}
+
+h3 {
+	display: block;
+	font-weight: bold;
+}
+
+h4 {
+	display: block;
+	font-weight: bold;
+}
+
+h5 {
+	display: block;
+	font-weight: bold;
+}
+
+h6 {
+	display: block;
+	font-weight: bold;
+}
+
+table {
+	display: table;
+}
+
+thead {
+	display: table-header-group;
+}
+
+tbody {
+	display: table-row-group;
+}
+
+tfoot {
+	display: table-footer-group;
+}
+
+col {
+	display: table-column;
+}
+
+colgroup {
+	display: table-column-group;
+}
+
+tr {
+	display: table-row;
+}
+
+td, th {
+	display: table-cell;
+}
+
+th {
+	font-weight: bold;
+}
+
+caption {
+	display: table-caption;
+	text-align: center;
+}
+
+ul, menu, dir {
+	display: block;
+	list-style-type: disc;
+}
+
+ol {
+	display: block;
+	list-style-type: decimal;
+}
+
+li {
+	display: list-item;
+}
+
+ul ul, ol ul {
+	list-style-type: circle;
+}
+
+ol ol ul, ol ul ul, ul ol ul, ul ul ul {
+	list-style-type: square;
+}
+
+dd {
+	display: block;
+}
+
+dl {
+	display: block;
+}
+
+dt {
+	display: block;
+}
+
+form {
+	display: block;
+}
+
+legend {
+	display: block;
+}
+
+fieldset {
+	display: block;
+}
+
+input, textarea, keygen, select, button {
+	color: initial;
+	display: inline-block;
+	text-align: start;
+}
+
+input[type="hidden"] {
+	display: none;
+}
+
+input,
+input:matches([type="password"], [type="search"]) {
+	background-color: white;
+}
+
+textarea {
+	background-color: white;
+}
+
+input:matches([type="hidden"], [type="image"], [type="file"]) {
+	background-color: initial;
+}
+
+input[type="file"] {
+	color: inherit;
+	text-align: start !important;
+}
+
+input:matches([type="radio"], [type="checkbox"]) {
+	background-color: initial;
+}
+
+input:matches([type="button"], [type="submit"], [type="reset"]), button {
+	text-align: center;
+	color: #000000;
+	background-color: #dddddd;
+}
+
+input[type="range"] {
+	color: #909090;
+}
+
+input:matches([type="button"], [type="submit"], [type="reset"]):disabled,
+button:disabled, select:disabled, keygen:disabled, optgroup:disabled, option:disabled,
+select[disabled]>option {
+	color: GrayText;
+}
+
+area, param {
+	display: none;
+}
+
+optgroup {
+	font-weight: bolder;
+}
+
+option {
+	font-weight: normal;
+}
+
+output {
+	display: inline;
+}
+
+meter {
+	display: inline-block;
+}
+
+progress {
+	display: inline-block;
+}
+
+strong, b {
+	font-weight: bold;
+}
+
+i, cite, em, var, address, dfn {
+	font-style: italic;
+}
+
+tt, code, kbd, samp {
+	font-family: monospace;
+}
+
+pre, xmp, plaintext, listing {
+	display: block;
+	font-family: monospace;
+	white-space: pre;
+}
+
+mark {
+	background-color: yellow;
+	color: black;
+}
+
+s, strike, del {
+	text-decoration: line-through;
+}
+
+nobr {
+	white-space: nowrap;
+}
+
+a {
+	color: #0a26ee;
+	text-decoration: underline;
+}
+
+ruby > rt {
+	display: block;
+	text-align: start;
+}
+
+ruby > rp {
+	display: none;
+}
+
+noframes {
+	display: none;
+}
+
+frameset, frame {
+	display: block;
+}
+
+details {
+	display: block;
+}
+
+summary {
+	display: block;
+}
+
+template {
+	display: none;
+}
+
+slot {
+	display: contents;
+}
