@@ -184,8 +184,8 @@ sub _walkTree {
 			if ($node->tagId == HTML5::DOM->TAG_FORM) {
 				++$state->{form_id};
 				
-				my $method = $node->{method} || "POST";
-				$method = "GET" if ($method !~ /^POST|GET$/i);
+				my $method = uc($node->{method} || "");
+				$method = "GET" if ($method !~ /^POST|GET$/);
 				$state->{page}->formHidden($state->{form_id}."_".$method, $node->{action});
 			}
 			
@@ -227,16 +227,20 @@ sub _walkTree {
 			}
 			
 			# form input
-			if ($node->tagId == HTML5::DOM->TAG_INPUT) {
+			if ($node->tagId == HTML5::DOM->TAG_INPUT || $node->tagId == HTML5::DOM->TAG_BUTTON) {
 				my $name = _formInputName($node, $state);
 				my $value = $node->{value} || "";
 				my $type = lc($node->{type} || "text");
 				
+				if ($node->tagId == HTML5::DOM->TAG_BUTTON) {
+					$type = 'button' if ($type !~ /^(button|reset|submit)$/);
+				}
+				
 				if ($type eq "password") {
 					if ($state->{hidden_content}) {
-						$state->{page}->formPassword($name, $value);
-					} else {
 						$state->{page}->formHidden($name, $value);
+					} else {
+						$state->{page}->formPassword($name, $value);
 					}
 				} elsif ($type eq "hidden") {
 					$state->{page}->formHidden($name, $value);
@@ -246,6 +250,14 @@ sub _walkTree {
 					
 					if (!$state->{hidden_content}) {
 						$state->{page}->formButton($name, $value || "Submit");
+						$state->{page}->tag("\$");
+					}
+				} elsif ($type eq "reset") {
+					$value =~ s/\s+/ /g;
+					$value =~ s/^\s+|\s+$//g;
+					
+					if (!$state->{hidden_content}) {
+						$state->{page}->formButton($name, $value || "Reset");
 						$state->{page}->tag("\$");
 					}
 				} elsif ($type eq "checkbox") {
