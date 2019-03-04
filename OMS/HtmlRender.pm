@@ -4,9 +4,7 @@ use strict;
 
 =pod
 TODO:
-1. url resolver and links
-2. title from <title>
-3. support white-space
+1. support white-space
 ...
 =cut
 
@@ -47,9 +45,25 @@ sub render {
 		form_id			=> 0
 	};
 	
+	$state->{base} = _parseUri($page->getUrl());
+	
 	# Get <base>, if exists
 	my $base = $tree->at('base[href]');
 	$state->{base} = _parseUri($base->attr("href")) if ($base);
+	
+	# Get title
+	my $title = $tree->at('title');
+	$title = $title ? $title->text : $title;
+	$title =~ s/\s+/ /g;
+	$title =~ s/^\s+|\s+$//g;
+	
+	$state->{page}
+		->style({bold => 1, pad => 2})
+		->plus()
+		->text($title || $page->getUrl())
+		->plus()
+		->background(0xFFFFFF)
+		->style();
 	
 	_walkTree($tree->root, $state);
 }
@@ -159,7 +173,12 @@ sub _walkTree {
 				}
 			}
 			
-			# TODO: HTML5 form=""
+			# url start
+			if ($node->tagId == HTML5::DOM->TAG_A) {
+				my $uri = _parseUri($node->{href} || "");
+				_mergeUri($uri, $state->{base});
+				$state->{page}->link(_serializeUri($uri));
+			}
 			
 			# form start
 			if ($node->tagId == HTML5::DOM->TAG_FORM) {
@@ -263,6 +282,10 @@ sub _walkTree {
 				--$state->{form_id};
 			}
 			
+			if ($node->tagId == HTML5::DOM->TAG_A) {
+				$state->{page}->linkEnd();
+			}
+			
 			if (!$state->{hidden_content}) {
 				if ($styles->{display} =~ /^block|table|table-caption$/) {
 					if ($state->{last_tok} != $LAST_TOK->{BLOCK} && $state->{last_tok} != $LAST_TOK->{BR}) {
@@ -313,8 +336,12 @@ sub _parseUri {
 sub _mergeUri {
 	my $l = scalar(@{$_[0]});
 	for (my $i = 0; $i < $l; ++$i) {
-		last if (defined $_[0]->[$i]);
-		$_[0]->[$i] = $_[1]->[$i];
+		if ($i == 3 && defined $_[0]->[$i] && $_[0]->[$i] !~ /^\// && $_[1]->[$i] =~ /\/$/) {
+			$_[0]->[$i] = $_[1]->[$i].$_[0]->[$i];
+		} else {
+			last if (defined $_[0]->[$i]);
+			$_[0]->[$i] = $_[1]->[$i];
+		}
 	}
 }
 
@@ -346,7 +373,7 @@ sub _serializeUri {
 	$out .= $url->[4] if (defined $url->[4]);
 	
 	# hash
-	$out .= "#".$url->[5] if (defined $url->[5]);
+	$out .= $url->[5] if (defined $url->[5]);
 	
 	return $out;
 }

@@ -236,17 +236,9 @@ sub run {
 		$css_render->render();
 
 		$page = OMS::Obml->new({
-			url		=> "http://google.com", 
+			url		=> $self->{request_url}, 
 			version	=> $self->{params}->{browserVersion}
 		});
-		$page
-			->style({bold => 1, pad => 2})
-			->plus()
-			->text("Some Page Title")
-			->plus()
-			->background(0xFFFFFF)
-			->style();
-
 		OMS::HtmlRender::render($css_render, $tree, $page);
 		
 		$page->end();

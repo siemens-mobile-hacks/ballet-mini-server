@@ -97,6 +97,11 @@ sub new {
 	return bless $self => $class;
 }
 
+sub getUrl {
+	my ($self) = @_;
+	return $self->{options}->{url};
+}
+
 sub build {
 	my ($self) = @_;
 	
