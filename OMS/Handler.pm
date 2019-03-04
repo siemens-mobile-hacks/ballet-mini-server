@@ -5,6 +5,7 @@ use strict;
 use Data::Dumper;
 use HTML5::DOM;
 use File::Slurp qw|read_file|;
+use URI::Escape;
 
 use OMS::Obml;
 use OMS::CssRender;
@@ -181,6 +182,31 @@ sub run {
 	print "REQUEST: ".$self->{request_url}."\n";
 	
 	my $page;
+	my $form;
+	
+	if ($self->{params}->{post} ne '') {
+		$form = {
+			id		=> 0, 
+			method	=> "GET", 
+			action	=> $self->{request_url}, 
+			fields	=> []
+		};
+		for my $pair (split(/&/, $self->{params}->{post})) {
+			my ($k, $v) = split(/=/, $pair, 2);
+			
+			$v = uri_unescape($v);
+			
+			if ($k =~ /^(\d+)_(.*?)$/) {
+				$form->{id} = $1;
+				$form->{method} = $2;
+				$form->{action} = $v;
+			} elsif ($k =~ /^(\d+)-(.*?)$/) {
+				push @{$form->{fields}}, [$2, $v];
+			}
+		}
+		
+		print Dumper($form);
+	}
 	
 	if ($self->{request_url} eq 'server:test' || $self->{request_url} eq 'server:t0') {
 		$page = OMS::Obml->new({
